@@ -1,0 +1,135 @@
+swagger: '2.0'
+info:
+  description: "API para cadastro e manutenção de Veiculos"
+  version: "1.0.0"
+  title: "Registro Veiculo"
+  contact:
+    email: "apiteam@swagger.io"
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+host: "localhost:8080"
+basePath: /v1
+schemes: 
+  - https
+  - http
+  
+paths:
+  /veiculo:
+    post:
+      tags:
+      - veiculo
+      summary: Cadastra Veiculo
+      description: Cadastra um novo veiculo
+      consumes:
+        - application/json
+      produces:
+        - applications/json
+      operationId: cadastraVeiculo
+      parameters:
+        - in: body
+          name: veiculo
+          required: true
+          schema:
+            $ref: '#/definitions/veiculo'
+      responses:
+        201:
+          description: Cadastro efetuado com sucesso.
+          schema:
+            $ref: '#/definitions/veiculo'
+        400:
+          description: Requisição Invalida
+        500:
+          description: Erro interno no servidor
+  '/veiculo/findAll':
+    get:
+      tags: 
+      - veiculo
+      summary: Consulta Veiculos
+      description: Consulta Veiculos Cadastrados
+      operationId: consultaVeiculo
+      consumes:
+        - application/json
+      produces:
+        - applications/jso
+      parameters:
+        - in: query
+          name: veiculo
+          description: Lista veiculos cadastrados
+          required: true
+          type: array
+          items: 
+           type: string
+        
+      responses:
+        200:
+          description: OK
+        400:
+          description: Requisição Invalida
+        500:
+          description: Erro interno no servidor
+  '/veiculo/{id}':
+    get:
+      summary: Consulta veiculo
+      description: Consulta veiculo unico
+      operationId: findById
+      consumes:
+        - application/json
+      produces:
+        - applications/jso
+      parameters:
+        - in: path
+          name: id
+          description: Lista veiculo
+          required: true
+          type: integer
+          format: int32
+      responses:
+        200:
+          description: Consulta efetuada com sucesso
+          schema:
+           $ref: '#/definitions/veiculo'
+        400:
+          description: Requisição Invalida
+        500:
+          description: Erro interno no servidor
+          
+definitions:
+  veiculo:
+    title: Veiculos
+    type: object
+    properties:
+      id:
+        type: integer
+        format: int32
+        example: 1
+      descricao:
+        type: string
+        example: 'Uno'
+      dataRegistro:
+        type: string
+        example: '11/01/2021'
+      valor:
+        type: number
+        format: double
+        example: 100,00
+      modelo:
+        $ref: '#/definitions/modelo'
+        
+  modelo:
+    title: Modelo
+    type: object
+    properties:
+      id:
+        type: integer
+        format: int32
+        example: 1
+      descricao:
+        type: string
+      ano:
+        type: string
+        example: '2020'
+        
+      
+      
+    
